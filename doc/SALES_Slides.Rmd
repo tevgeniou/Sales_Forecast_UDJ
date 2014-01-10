@@ -1,0 +1,184 @@
+---
+
+title : Sales Forecast Regression Exercise
+author : INSEAD MBA Core Course UDJ
+job : INSEAD
+widgets : []
+mode : standalone 
+
+---
+
+## The Problem
+
+A marketing manager wishes to forecast corporate sales for the coming year and to understand better the factors that influence them. 
+
+---
+## Sales Drivers
+
+The manager believes that sales depend upon
+
+personal disposable income, dealers' allowances prices, product development expenditures, capital investments, advertising, sales expenses, total industry advertising, and some random effects.
+
+---
+
+## The Data
+
+1.  Personal Disposable Income in Millions of Dollars. (PDI)
+
+2.	Dealers' Allowances in Thousands of Dollars. (DEALS)
+
+3.	Price in Dollars. (PRICE)
+
+4.	Product Development in Thousands of Dollars. (R&D)
+
+5.	Capital Investments in Thousands of Dollars. (INVEST)
+
+6.	Advertising in Thousands of Dollars. (ADVERTIS)
+
+7.	Sales Expenses in Thousands of Dollars. (EXPENSE)
+
+8.	Total Industry Advertising in Thousands of Dollars. (TOTINDAD)
+
+9.	Company Sales in Thousands of Dollars. (SALES)
+
+---
+
+## Summary Statistics
+
+<div class="row">
+<div class="col-md-6">
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+data_summary = my_summary(ProjectData)
+print(xtable(data_summary, caption = "Summary Statistics", digits=3), type = "html", html.table.attributes = "class='table table-striped table-hover table-bordered'", caption.placement = "top", comment = FALSE, include.rownames = TRUE)
+```
+</div>
+</div>
+
+---
+
+## Histogram of the Dependent Variable `r dependent_variable`
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+hist(ProjectData[,dependent_variable], main = paste("Histogram of", dependent_variable, sep=" "), xlab=dependent_variable,breaks = max(5,round(nrow(ProjectData)/5)))
+```
+
+---
+
+## Time Series of Sales
+
+An **interactive chart** of the `r dependent_variable` time series (Place the mouse on the plot to see daily values, and zoom using click-and-drag with the mouse in the smaller graph below)
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+Sales = ProjectData[,dependent_variable]
+thedates=1:nrow(ProjectData)
+data.frame.series<-data.frame(Time=thedates, Values=Sales, row_names=rownames(ProjectData))
+int_series <- nvd3Plot(Values ~ Time, data = data.frame.series, id = 'chart', type = 'lineWithFocusChart')
+int_series$yAxis(showMaxMin=FALSE)
+int_series$print(include_assets = TRUE, cdn = TRUE)
+```
+
+---
+
+## Correlation Matrix
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+data_reorder=cbind(ProjectData[,independent_variables,drop=F],ProjectData[,dependent_variable,drop=F])
+thecor=cor(data_reorder)
+colnames(thecor)<-colnames(thecor)
+rownames(thecor)<-rownames(thecor)
+
+cat(renderHeatmapX(thecor, border=1))
+```
+
+---
+## Just one of the many possible plots...
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+yax=colnames(ProjectData[,independent_variables,drop=F])[1]
+plot(ProjectData[,yax],ProjectData[,dependent_variable], xlab=yax, ylab=dependent_variable)
+```
+
+---
+
+## Our Regression Model
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+
+if (length(independent_variables) == 1){ 
+  regression_model_to_see = paste(dependent_variable, paste("b1",independent_variables,sep="*"), sep=" = ")
+  } else {
+    res=paste(make_b(1),independent_variables[1], sep="*")
+    for (iter in 2:(length(independent_variables)-1))
+      res=paste(res,paste(make_b(iter),independent_variables[iter],sep="*"), sep=" + ")
+    res=paste(res,paste(make_b(length(independent_variables)),tail(independent_variables,1),sep="*"), sep=" + ")
+    regression_model_to_see = paste(dependent_variable, res, sep=" = ")  
+    }
+cat(regression_model_to_see)
+```
+
+
+
+---
+
+## Regression Output
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+if (length(independent_variables) == 1){ 
+  regression_model=paste(paste(dependent_variable, "~",sep=""), independent_variables,sep="")
+  } else {
+    res=independent_variables[1]
+    for (iter in 2:(length(independent_variables)-1))
+      res=paste(res,independent_variables[iter],sep="+")
+    res=paste(res,tail(independent_variables,1),sep="+")
+    regression_model = paste(dependent_variable, res, sep="~")  
+    }
+
+the_fit<-lm(regression_model,data=ProjectData)
+print_the_fit<-as.list(summary(the_fit))
+fit_table<-xtable(summary(the_fit),caption=paste("Regression Analysis - Dependent variable",dependent_variable, sep=""))
+print(fit_table,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+```
+
+R-squared: `r print_the_fit$r.squared` ,  Adjusted R-squared: `r print_the_fit$adj.r.squared` 
+
+F-statistic: `r print_the_fit$fstatistic["value"]` with   `r print_the_fit$fstatistic["numdf"]` and `r print_the_fit$fstatistic["dendf"]` degrees of freedom 
+
+Residual standard error: `r sqrt(deviance(the_fit)/df.residual(the_fit))` with `r the_fit$df` degrees of freedom
+
+---
+
+## The Residuals Plot (Time Series)
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+
+the_residuals = residuals(the_fit) 
+
+thedates=1:nrow(ProjectData)
+data.frame.series<-data.frame(Time=thedates, Residual=the_residuals, row_names=rownames(ProjectData))
+residual_series <- nvd3Plot(Residual ~ Time, data = data.frame.series, id = 'chart', type = 'lineWithFocusChart')
+residual_series$yAxis(showMaxMin=FALSE)
+residual_series$print(include_assets = TRUE, cdn = TRUE)
+```
+
+---
+
+## One of the many Residual plots...
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+plot(ProjectData[,dependent_variable],the_residuals,xlab=dependent_variable,ylab="Residuals")
+abline(0, 0, col="red")  
+```
+
+---
+
+## Histogram of the Residuals
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+hist(the_residuals, main = "Histogram of the Residuals", xlab=dependent_variable,breaks = max(5,round(length(the_residuals)/5)))
+```
+

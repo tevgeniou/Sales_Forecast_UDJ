@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<style type="text/css"> body {padding: 10px 30px 10px 30px;} table,th, td {text-align: center;} </style>
+
+Sales Forecast Regression Exercise
+========================================================
+
+**INSEAD MBA Core Course UDJ**
+
+
+Exercise 
+---------------------------------------------------------
+
+A marketing manager wishes to forecast corporate sales for the coming year and to understand better the factors that influence them. The marketing manager wants the forecast for at least four reasons:
+
+(1)  to supply her with estimates needed as her part in the corporate planning activity,
+
+(2)	to giver her an idea of the kind of staffing requirements she will have in sales and sales service to handle to company's increased sales,
+
+(3)	to help in planning budget allocations for advertising, dealer discounts, and so on, and
+
+(4)	to help her make better policy decisions concerning price, advertising, and product development expenditures.
+
+With this initial identification of the problem, the marketing manager sits down with the sales manager and others in her marketing organization to determine the factors that might affect the company's sales. They come up with the following model:
+
+
+```
+The manager believes that sales depend upon: personal disposable income, dealers' allowances prices, product development expenditures, capital investments, advertising, sales expenses, total industry advertising, and some random effects.
+```
+The marketing manager recognizes that some of these factors will have a more important effect than others on the company's sales; others may turn out to be unimportant. Since any one of them, however, may have an important impact, data are gathered on all of them at this early stage in the process.
+
+The Data
+---------------------------------------------------------
+
+This file SALES includes semiannual data, covering the period from 1972 through 1991, on nine variables (eight independent variables and the dependent variable SALES). A list of the nine variables is given below:
+
+1.	Personal Disposable Income in Millions of Dollars. (PDI)
+2.	Dealers' Allowances in Thousands of Dollars. (DEALS)
+3.	Price in Dollars. (PRICE)
+4.	Product Development in Thousands of Dollars. (R&D)
+5.	Capital Investments in Thousands of Dollars. (INVEST)
+6.	Advertising in Thousands of Dollars. (ADVERTIS)
+7.	Sales Expenses in Thousands of Dollars. (EXPENSE)
+8.	Total Industry Advertising in Thousands of Dollars. (TOTINDAD)
+9.	Company Sales in Thousands of Dollars. (SALES)
+
+
+<blockquote> <p>
+Find the most appropriate regression equation for SALES. How do you interpret this regression results you found?
+</p> </blockquote>
+
+
+The Analysis
+---------------------------------------------------------
+
+Let's first see some summary statistics. 
+
+<div class="row">
+<div class="col-md-6">
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+data_summary = my_summary(ProjectData)
+print(xtable(data_summary, caption = "Summary Statistics", digits=3), type = "html", html.table.attributes = "class='table table-striped table-hover table-bordered'", caption.placement = "top", comment = FALSE, include.rownames = TRUE)
+```
+</div>
+</div>
+
+This is a histogram of our dependent variable `r dependent_variable`:
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+hist(ProjectData[,dependent_variable], main = paste("Histogram of", dependent_variable, sep=" "), xlab=dependent_variable,breaks = max(5,round(nrow(ProjectData)/5)))
+```
+
+
+How has our dependent variable `r colnames(ProjectData)[dependent_variable]` changed over time? Here is an **interactive chart** of the `r dependent_variable` time series. 
+
+
+**Place the mouse on the datapoints on the plot to see daily values, and zoom using click-and-drag with the mouse in the smaller graph below:**
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+Sales = ProjectData[,dependent_variable]
+thedates=1:nrow(ProjectData)
+data.frame.series<-data.frame(Time=thedates, Values=Sales, row_names=rownames(ProjectData))
+int_series <- nvd3Plot(Values ~ Time, data = data.frame.series, id = 'chart', type = 'lineWithFocusChart')
+int_series$yAxis(showMaxMin=FALSE)
+int_series$print(include_assets = TRUE, cdn = TRUE)
+```
+
+
+This gives us a first rough idea about how the variable evolved. 
+
+
+Let's now see the correlation between all our variables:
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+data_reorder=cbind(ProjectData[,independent_variables,drop=F],ProjectData[,dependent_variable,drop=F])
+thecor=cor(data_reorder)
+colnames(thecor)<-colnames(thecor)
+rownames(thecor)<-rownames(thecor)
+
+cat(renderHeatmapX(thecor, border=1))
+```
+
+and maybe a plot between our dependent variable and, say, the first independent variable `r colnames(ProjectData[,independent_variables,drop=F])[1]`:
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+yax=colnames(ProjectData[,independent_variables,drop=F])[1]
+plot(ProjectData[,yax],ProjectData[,dependent_variable], xlab=yax, ylab=dependent_variable)
+```
+
+One can generate more of these plots (e.g. using the web applicatin for this case).
+
+### Regression Model
+
+Let's try this **regression model**:
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+make_b <- function(i) paste("b", i, sep="")
+
+if (length(independent_variables) == 1){ 
+  regression_model_to_see = paste(dependent_variable, paste("b1",independent_variables,sep="*"), sep=" = ")
+  } else {
+    res=paste(make_b(1),independent_variables[1], sep="*")
+    for (iter in 2:(length(independent_variables)-1))
+      res=paste(res,paste(make_b(iter),independent_variables[iter],sep="*"), sep=" + ")
+    res=paste(res,paste(make_b(length(independent_variables)),tail(independent_variables,1),sep="*"), sep=" + ")
+    regression_model_to_see = paste(dependent_variable, res, sep=" = ")  
+    }
+cat(regression_model_to_see)
+```
+
+Let's see now the regression output for our choice of dependent and independent variables:
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+if (length(independent_variables) == 1){ 
+  regression_model=paste(paste(dependent_variable, "~",sep=""), independent_variables,sep="")
+  } else {
+    res=independent_variables[1]
+    for (iter in 2:(length(independent_variables)-1))
+      res=paste(res,independent_variables[iter],sep="+")
+    res=paste(res,tail(independent_variables,1),sep="+")
+    regression_model = paste(dependent_variable, res, sep="~")  
+    }
+
+the_fit<-lm(regression_model,data=ProjectData)
+print_the_fit<-as.list(summary(the_fit))
+fit_table<-xtable(summary(the_fit),caption=paste("Regression Analysis - Dependent variable",dependent_variable, sep=""))
+print(fit_table,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+```
+
+Residual standard error: `r sqrt(deviance(the_fit)/df.residual(the_fit))` on `r the_fit$df` degrees of freedom<br>
+Multiple R-squared: `r print_the_fit$r.squared` ,  Adjusted R-squared: `r print_the_fit$adj.r.squared` <br>
+F-statistic: `r print_the_fit$fstatistic["value"]` on   `r print_the_fit$fstatistic["numdf"]` and `r print_the_fit$fstatistic["dendf"]` <br>
+p-value: `r pf(print_the_fit$fstatistic[1], print_the_fit$fstatistic[2], print_the_fit$fstatistic[3],lower.tail = FALSE)` <br><br>
+
+
+**Residual Analysis**
+
+Let's look now at the residuals. Here are some plots and statistics.
+
+Let's see first the residuals. 
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+
+the_residuals = residuals(the_fit) 
+
+thedates=1:nrow(ProjectData)
+data.frame.series<-data.frame(Time=thedates, Residual=the_residuals, row_names=rownames(ProjectData))
+residual_series <- nvd3Plot(Residual ~ Time, data = data.frame.series, id = 'chart', type = 'lineWithFocusChart')
+residual_series$yAxis(showMaxMin=FALSE)
+residual_series$print(include_assets = TRUE, cdn = TRUE)
+```
+
+Of course we can make various plots of the residuals to "spot" (visually for now) and heteroskedasticity or autocorrelation. For example this is the plot of the residuals against the dependent variable `r dependent_variable`:
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+plot(ProjectData[,dependent_variable],the_residuals,xlab=dependent_variable,ylab="Residuals")
+abline(0, 0, col="red")  
+```
+
+or the histogram of the residuals:
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+hist(the_residuals, main = "Histogram of the Residuals", xlab=dependent_variable,breaks = max(5,round(length(the_residuals)/5)))
+```
+
+
+
