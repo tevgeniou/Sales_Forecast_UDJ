@@ -6,27 +6,14 @@ options(scipen = 50)
 
 shinyServer(function(input, output,session) {
   
-  csv_format <- 1
   ############################################################
   # STEP 1: Read the data 
   read_dataset <- reactive({
     input$datafile_name_coded
-    input$datafile_name
     
     # First read the pre-loaded file, and if the user loads another one then replace 
     # ProjectData with the filethe user loads
     ProjectData <- read.csv(paste("../data", paste(input$datafile_name_coded, "csv", sep="."), sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
-    if (!is.null(input$datafile_name) & input$load_choice)    
-    { 
-      csv_format <- 1
-      ProjectData <- read.csv(input$datafile_name$datapath, sep=";", dec=",")
-      if (!is.character(colnames(ProjectData)[1]) | !is.character(rownames(ProjectData)[1])){ 
-        ProjectData <- 0*ProjectData
-        csv_format = 0
-      }
-      #if (!is.null(input$datafile_name))    
-      #  load(inFile()$datapath) # this contains only the matrix ProjectData  
-    }
     
     updateSelectInput(session, "dependent_variable","Dependent variable",  colnames(ProjectData), selected=NULL)
     updateSelectInput(session, "independent_variables","Independent variables",  colnames(ProjectData), selected=NULL)
@@ -85,8 +72,6 @@ shinyServer(function(input, output,session) {
                                paste("Independent Variable:",1:length(independent_variables)))
     colnames(allparameters)<-NULL
 
-    if (!csv_format)
-      allparameters = matrix(c("The Data Loaded as Not in right format"),ncol=1)
     allparameters
   })
   

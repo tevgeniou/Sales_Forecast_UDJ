@@ -12,20 +12,15 @@ shinyUI(pageWithSidebar(
   
   sidebarPanel(
     
-    HTML("<center><h4> Please first read the notes below </h4>"),    
-    HTML("<hr>"),    
-    
+    HTML("Please reload the web page any time the app crashes. <strong> When it crashes the screen turns into grey.</strong> If it only stops reacting it may be because of 
+heavy computation or traffic on the server, in which case you should simply wait. This is a test version. </h4>"),
+
     ###########################################################    
     # STEP 2.1: read the data
     
-    HTML("<h4>Data Upload </h4>"),
-    HTML("<br>"),    
-    HTML("Choose a pre-loaded file (Recommended for Testing the App):"),    
+    HTML("<hr>"),
+    HTML("<center>Choose the data to use (please go to the <strong>Parameters tab </strong> every time you load new data):"),    
     selectInput('datafile_name_coded', '', c("SALES","LIFE"),multiple = FALSE),
-    HTML("<br>"),
-    checkboxInput("load_choice", "Check box to load your own data (requires fast internet connection).", value=FALSE),
-    HTML("<br>"),
-    fileInput('datafile_name', ''),
     HTML("<hr>"),
     
     ###########################################################
@@ -41,7 +36,7 @@ shinyUI(pageWithSidebar(
     HTML("<br>"),
     selectInput("independent_variables","Independent variables",  choices = c("independent Variables"), selected=NULL, multiple=TRUE),
     #uiOutput("independent_variables"),
-    HTML("<hr>"),
+    HTML("<center><hr>"),
     
     ###########################################################
     # STEP 2.3: buttons to download the new report and new slides 
@@ -51,21 +46,7 @@ shinyUI(pageWithSidebar(
     HTML("<hr>"),
     HTML("<h4>Download the new HTML5 slides </h4>"),
     downloadButton('slide', label = "Download"),
-    HTML("<hr>"),
-    
-    HTML("<h4>Notes:</h4> </center>"),
-    HTML("<br>"),    
-    HTML("Please reload the web page any time the app crashes. <strong> When it crashes the screen turns into grey.</strong> If it only stops reacting it may be because of 
-heavy computation or traffic on the server, in which case you should simply wait. This is a test version. </h4>"),
-    HTML("<br>"),    
-    HTML("<br>"),    
-    HTML("If you load your own data, your data file should be a <strong>.csv file in the format of the case with one 
-         column per variable and one row per observation, with the first row being the variable names</strong>."),    
-    HTML("<br>"),    
-    HTML("<br>"),    
-    HTML("If you load your own data you need to keep the selection of the <strong>'load your own data'</strong> button above on. Otherwise, to use the pre-loaded data you must uncheck the button"),    
-    HTML("<hr>")
-    
+    HTML("<hr>")    
   ),
   
   ###########################################################
@@ -98,9 +79,9 @@ heavy computation or traffic on the server, in which case you should simply wait
       tabPanel("Summary", tableOutput('summary')),
       
       tabPanel("Histograms",
-               div(class="row-fluid",
-                   div(class="span12",h4("Select Stock")),
-                   textInput("hist_var", "Select the name of the variable to see", "SALES"),
+               div(class="row-fluid", 
+                   HTML("<h5>Select the name of the variable to see (<strong>must be a variable in your dataset</strong>)</h5>"),                   
+                   textInput("hist_var", "", "SALES"),
                    tags$hr(),
                    div(class="span6",plotOutput('histogram'))
                )
@@ -110,9 +91,10 @@ heavy computation or traffic on the server, in which case you should simply wait
       
       tabPanel("Scatter Plots", 
                div(class="row-fluid",
-                   textInput("scatter1", "Select the variable to plot on the x-axis:", "PRICE"),
+                   HTML("<h5>Select the names of the variables to plot (<strong>must be variables in your dataset</strong>)</h5>"),                   
+                   textInput("scatter1", "x-axis:", "PRICE"),
                    tags$hr(),
-                   textInput("scatter2", "Select the variable to plot on the y-axis:", "SALES"),
+                   textInput("scatter2", "y-axis:", "SALES"),
                    tags$hr(),
                    div(class="span12",h4("The Scatter Plot")),
                    div(class="span6",plotOutput('scatter'))
@@ -127,7 +109,8 @@ heavy computation or traffic on the server, in which case you should simply wait
       
       tabPanel("Residuals Scatter Plots", 
                div(class="row-fluid",
-                   textInput("residual_scatter1", "Select the variable to plot the residuals against:", "SALES"),
+                   HTML("<h5>Select the name of the variable to plot the residuals against (<strong>must be a variable in your dataset</strong>)</h5>"),                   
+                   textInput("residual_scatter1", "", "SALES"),
                    tags$hr(),
                    div(class="span12",h4("The Scatter Plot")),
                    div(class="span6",plotOutput('residuals_scatter'))
