@@ -381,7 +381,7 @@ shinyServer(function(input, output,session) {
       unlink("assets", recursive=TRUE)      
       unlink("figures", recursive=TRUE)      
       
-      file.copy("../doc/SALES_Report.Rmd",filename.Rmd,overwrite=T)
+      file.copy(paste(local_directory,"doc/SALES_Report.Rmd",sep="/"),filename.Rmd,overwrite=T)
       out = knit2html(filename.Rmd,quiet=TRUE)
       
       unlink(".cache", recursive=TRUE)      
@@ -420,7 +420,7 @@ shinyServer(function(input, output,session) {
       unlink("assets", recursive=TRUE)    
       unlink("figures", recursive=TRUE)      
       
-      file.copy("../doc/SALES_Slides.Rmd",filename.Rmd,overwrite=T)
+      file.copy(paste(local_directory,"doc/SALES_Slides.Rmd",sep="/"),filename.Rmd,overwrite=T)
       slidify(filename.Rmd)
       
       unlink(".cache", recursive=TRUE)     
