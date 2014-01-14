@@ -1,14 +1,8 @@
-
-
 if (!exists("local_directory")) {  
   local_directory <- "~/Sales_Forecast_UDJ" 
   source(paste(local_directory,"R/library.R",sep="/"))
   source(paste(local_directory,"R/heatmapOutput.R",sep="/"))
 } 
-
-Sales <- read.csv(paste(local_directory,"data/SALES.csv",sep="/"), sep=";", dec=",") # this contains only the matrix ProjectData
-Life <- read.csv(paste(local_directory,"data/LIFE.csv",sep="/"), sep=";", dec=",") # this contains only the matrix ProjectData
-ProjectData <- read.csv(paste(local_directory,"data/SALES.csv",sep="/"), sep=";", dec=",") # this contains only the matrix ProjectData
 
 # To be able to upload data up to 30MB
 options(shiny.maxRequestSize=30*1024^2)
@@ -82,7 +76,7 @@ shinyServer(function(input, output,session) {
                                "Dependent Variable", 
                                paste("Independent Variable:",1:length(independent_variables)))
     colnames(allparameters)<-NULL
-
+    
     allparameters
   })
   
@@ -271,7 +265,7 @@ shinyServer(function(input, output,session) {
     input$datafile_name
     input$dependent_variable
     input$independent_variables
-
+    
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
     dependent_variable <- all_inputs$dependent_variable

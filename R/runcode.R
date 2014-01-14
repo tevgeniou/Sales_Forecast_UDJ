@@ -3,7 +3,6 @@ Sales <- read.csv(paste("data", "SALES.csv", sep = "/"), sep=";", dec=",") # thi
 Life <- read.csv(paste("data", "LIFE.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
 ProjectData <- read.csv(paste("data", "SALES.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
 
-source("R/library.R")
 source("R/heatmapOutput.R")
 
 ######################################################################
