@@ -57,6 +57,11 @@ if (start_local_webapp){
   if (require(shiny-incubator) == FALSE) 
     install_github("shiny-incubator", "rstudio")
   
+  # first load the data files in the data directory so that the App see them
+  Sales <- read.csv(paste("data", "SALES.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
+  Life <- read.csv(paste("data", "LIFE.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
+  ProjectData <- read.csv(paste("data", "SALES.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
+
   # now run the app
   runApp(paste(local_directory,"tools", sep="/"))  
 }
