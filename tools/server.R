@@ -28,7 +28,6 @@ shinyServer(function(input, output,session) {
   
   user_inputs <- reactive({
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     input$thetabs
@@ -54,7 +53,6 @@ shinyServer(function(input, output,session) {
   the_parameters_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     
@@ -93,7 +91,6 @@ shinyServer(function(input, output,session) {
   the_summary_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     
@@ -117,7 +114,6 @@ shinyServer(function(input, output,session) {
   the_histogram_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     input$hist_var
@@ -154,7 +150,6 @@ shinyServer(function(input, output,session) {
   the_correlation_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     
@@ -187,7 +182,6 @@ shinyServer(function(input, output,session) {
   the_scatter_plots_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     input$scatter1    
@@ -222,7 +216,6 @@ shinyServer(function(input, output,session) {
   the_regression_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     
@@ -263,7 +256,6 @@ shinyServer(function(input, output,session) {
   the_residuals_plot_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     
@@ -301,7 +293,6 @@ shinyServer(function(input, output,session) {
   the_residuals_scatter_tab<-reactive({
     # list the user inputs the tab depends on (easier to read the code)
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     input$residual_scatter1
@@ -336,7 +327,6 @@ shinyServer(function(input, output,session) {
   
   the_slides_and_report <-reactive({
     input$datafile_name_coded
-    input$datafile_name
     input$dependent_variable
     input$independent_variables
     
