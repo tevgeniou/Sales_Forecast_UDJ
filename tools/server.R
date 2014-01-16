@@ -31,6 +31,7 @@ shinyServer(function(input, output,session) {
     input$datafile_name
     input$dependent_variable
     input$independent_variables
+    input$thetabs
     
     list(ProjectData = read_dataset(), 
          dependent_variable = input$dependent_variable, 

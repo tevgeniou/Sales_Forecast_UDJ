@@ -115,7 +115,9 @@ heavy computation or traffic on the server, in which case you should simply wait
                    div(class="span12",h4("The Scatter Plot")),
                    div(class="span6",plotOutput('residuals_scatter'))
                )
-      )               
+      ),
+      
+      id = "thetabs"
       
       
     )
