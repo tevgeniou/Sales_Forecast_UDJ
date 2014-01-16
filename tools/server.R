@@ -30,7 +30,6 @@ shinyServer(function(input, output,session) {
     input$datafile_name_coded
     input$dependent_variable
     input$independent_variables
-    input$thetabs
     
     list(ProjectData = read_dataset(), 
          dependent_variable = input$dependent_variable, 
@@ -55,7 +54,8 @@ shinyServer(function(input, output,session) {
     input$datafile_name_coded
     input$dependent_variable
     input$independent_variables
-    
+    input$action_parameters
+      
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
     dependent_variable <- all_inputs$dependent_variable
@@ -93,6 +93,7 @@ shinyServer(function(input, output,session) {
     input$datafile_name_coded
     input$dependent_variable
     input$independent_variables
+    input$action_summary
     
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
@@ -117,7 +118,7 @@ shinyServer(function(input, output,session) {
     input$dependent_variable
     input$independent_variables
     input$hist_var
-    
+    input$action_Histograms
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
     dependent_variable <- all_inputs$dependent_variable
@@ -152,6 +153,7 @@ shinyServer(function(input, output,session) {
     input$datafile_name_coded
     input$dependent_variable
     input$independent_variables
+    input$action_correlations
     
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
@@ -186,6 +188,7 @@ shinyServer(function(input, output,session) {
     input$independent_variables
     input$scatter1    
     input$scatter2  
+    input$action_scatterplots
     
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
@@ -218,6 +221,7 @@ shinyServer(function(input, output,session) {
     input$datafile_name_coded
     input$dependent_variable
     input$independent_variables
+    input$action_regression
     
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
@@ -258,6 +262,8 @@ shinyServer(function(input, output,session) {
     input$datafile_name_coded
     input$dependent_variable
     input$independent_variables
+    input$action_residuals
+    input$action_residualshist
     
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
@@ -296,6 +302,7 @@ shinyServer(function(input, output,session) {
     input$dependent_variable
     input$independent_variables
     input$residual_scatter1
+    input$action_residuals_scatter
     
     all_inputs <- user_inputs()
     ProjectData <-  all_inputs$ProjectData
