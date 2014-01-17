@@ -70,7 +70,7 @@ heavy computation or traffic on the server, in which case you should simply wait
       
       tabPanel("Parameters", 
                div(class="row-fluid",
-                   actionButton("action_parameters", "Show Results"),
+                   actionButton("action_parameters", "Show/Update Results"),
                    HTML("<br>"),
                    div(class="span12",h4("Summary of Key Parameters")),
                    tags$hr(),
@@ -79,7 +79,7 @@ heavy computation or traffic on the server, in which case you should simply wait
       ),
       
       tabPanel("Summary", 
-               actionButton("action_summary", "Show Results"),
+               actionButton("action_summary", "Show/Update Results"),
                HTML("<br>"),
                tableOutput('summary')),
       
@@ -88,14 +88,14 @@ heavy computation or traffic on the server, in which case you should simply wait
                    HTML("<h5>Select the name of the variable to see (<strong>must be a variable in your dataset</strong>)</h5>"),                   
                    textInput("hist_var", "", "SALES"),
                    tags$hr(),
-                   actionButton("action_Histograms", "Show Results"),
+                   actionButton("action_Histograms", "Show/Update Results"),
                    HTML("<br>"),
                    div(class="span6",plotOutput('histogram'))
                )
       ),
       
       tabPanel("Correlations",
-               actionButton("action_correlations", "Show Results"),
+               actionButton("action_correlations", "Show/Update Results"),
                HTML("<br>"),
                tableOutput('correlation')),
       
@@ -106,7 +106,7 @@ heavy computation or traffic on the server, in which case you should simply wait
                    tags$hr(),
                    textInput("scatter2", "y-axis:", "SALES"),
                    tags$hr(),
-                   actionButton("action_scatterplots", "Show Results"),
+                   actionButton("action_scatterplots", "Show/Update Results"),
                    HTML("<br>"),
                    div(class="span12",h4("The Scatter Plot")),
                    div(class="span6",plotOutput('scatter'))
@@ -114,17 +114,17 @@ heavy computation or traffic on the server, in which case you should simply wait
       ),               
       
       tabPanel("Regression Output", 
-               actionButton("action_regression", "Show Results"),
+               actionButton("action_regression", "Show/Update Results"),
                HTML("<br>"),
                tableOutput("regression_output")),
       
       tabPanel("Residuals Plot", 
-               actionButton("action_residuals", "Show Results"),
+               actionButton("action_residuals", "Show/Update Results"),
                HTML("<br>"),
                plotOutput("residuals_plot")),
       
       tabPanel("Residuals Histogram", 
-               actionButton("action_residualshist", "Show Results"),
+               actionButton("action_residualshist", "Show/Update Results"),
                HTML("<br>"),
                plotOutput("residuals_hist")),
       
@@ -133,7 +133,7 @@ heavy computation or traffic on the server, in which case you should simply wait
                    HTML("<h5>Select the name of the variable to plot the residuals against (<strong>must be a variable in your dataset</strong>)</h5>"),                   
                    textInput("residual_scatter1", "", "SALES"),
                    tags$hr(),
-                   actionButton("action_residuals_scatter", "Show Results"),
+                   actionButton("action_residuals_scatter", "Show/Update Results"),
                    HTML("<br>"),
                    div(class="span12",h4("The Scatter Plot")),
                    div(class="span6",plotOutput('residuals_scatter'))
