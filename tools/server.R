@@ -23,6 +23,11 @@ shinyServer(function(input, output,session) {
     updateSelectInput(session, "dependent_variable","Dependent variable",  colnames(ProjectData), selected=NULL)
     updateSelectInput(session, "independent_variables","Independent variables",  colnames(ProjectData), selected=NULL)
     
+    updateSelectInput(session, "hist_var","Select Variable",  colnames(ProjectData), selected=colnames(ProjectData)[1])
+    updateSelectInput(session, "scatter1","x-axis",  colnames(ProjectData), selected=colnames(ProjectData)[1])
+    updateSelectInput(session, "scatter2","y-axis",  colnames(ProjectData), selected=colnames(ProjectData)[1])
+    updateSelectInput(session, "residual_scatter1","Select Variable",  colnames(ProjectData), selected=colnames(ProjectData)[1])
+    
     ProjectData
   })
   
