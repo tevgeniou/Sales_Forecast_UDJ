@@ -48,7 +48,7 @@ personal disposable income, dealers' allowances prices, product development expe
 <div class="row">
 <div class="col-md-6">
 ```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
-data_summary = my_summary(ProjectData)
+data_summary = my_summary(ProjectData[,union(dependent_variable,independent_variables),drop=F])
 print(xtable(data_summary, caption = "Summary Statistics", digits=3), type = "html", html.table.attributes = "class='table table-striped table-hover table-bordered'", caption.placement = "top", comment = FALSE, include.rownames = TRUE)
 ```
 </div>
