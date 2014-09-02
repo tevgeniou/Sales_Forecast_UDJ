@@ -170,7 +170,7 @@ shinyServer(function(input, output,session) {
     } else {
       data_reorder=ProjectData[,1,drop=F]
     }
-    thecor=cor(data_reorder)
+    thecor=round(cor(data_reorder),2)
     colnames(thecor)<-colnames(thecor)
     rownames(thecor)<-rownames(thecor)
     thecor    
