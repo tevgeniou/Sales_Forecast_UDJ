@@ -21,7 +21,7 @@ heavy computation or traffic on the server, in which case you should simply wait
     
     HTML("<hr>"),
     HTML("<center>Choose the data to use (please go to the <strong>Parameters tab </strong> every time you load new data):"),    
-    selectInput('datafile_name_coded', '', c("SALES","LIFE"),multiple = FALSE),
+    selectInput('datafile_name_coded', '', c("SALES","LIFE","harmonData"),multiple = FALSE),
     HTML("<hr>"),
     
     ###########################################################

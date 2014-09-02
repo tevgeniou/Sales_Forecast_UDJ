@@ -9,9 +9,13 @@ get_libraries <- function(filenames_list) {
   })
 }
 
-libraries_used=c("devtools","knitr","graphics","reshape2","RJSONIO","grDevices","xtable","FactoMineR")
+libraries_used=c("devtools","knitr","graphics","reshape2","RJSONIO","grDevices","xtable","FactoMineR", "rjson","markdown")
 get_libraries(libraries_used)
 
+require(devtools)
+
+if (require(rNVD3) == FALSE) 
+  install_github('rNVD3', 'ramnathv')
 if (require(slidifyLibraries) == FALSE) 
   install_github("slidifyLibraries", "ramnathv")
 if (require(slidify) == FALSE) 

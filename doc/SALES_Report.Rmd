@@ -71,22 +71,12 @@ hist(ProjectData[,dependent_variable], main = paste("Histogram of", dependent_va
 ```
 
 
-How has our dependent variable `r colnames(ProjectData)[dependent_variable]` changed over time? Here is an **interactive chart** of the `r dependent_variable` time series. 
-
-
-**Place the mouse on the datapoints on the plot to see daily values, and zoom using click-and-drag with the mouse in the smaller graph below:**
 
 ```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
 Sales = ProjectData[,dependent_variable]
 thedates=1:nrow(ProjectData)
 data.frame.series<-data.frame(Time=thedates, Values=Sales, row_names=rownames(ProjectData))
-int_series <- nvd3Plot(Values ~ Time, data = data.frame.series, id = 'chart', type = 'lineWithFocusChart')
-int_series$yAxis(showMaxMin=FALSE)
-int_series$print(include_assets = TRUE, cdn = TRUE)
 ```
-
-
-This gives us a first rough idea about how the variable evolved. 
 
 
 Let's now see the correlation between all our variables:
@@ -157,18 +147,12 @@ p-value: `r pf(print_the_fit$fstatistic[1], print_the_fit$fstatistic[2], print_t
 **Residual Analysis**
 
 Let's look now at the residuals. Here are some plots and statistics.
-
-Let's see first the residuals. 
-
 ```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
 
 the_residuals = residuals(the_fit) 
 
 thedates=1:nrow(ProjectData)
 data.frame.series<-data.frame(Time=thedates, Residual=the_residuals, row_names=rownames(ProjectData))
-residual_series <- nvd3Plot(Residual ~ Time, data = data.frame.series, id = 'chart', type = 'lineWithFocusChart')
-residual_series$yAxis(showMaxMin=FALSE)
-residual_series$print(include_assets = TRUE, cdn = TRUE)
 ```
 
 Of course we can make various plots of the residuals to "spot" (visually for now) and heteroskedasticity or autocorrelation. For example this is the plot of the residuals against the dependent variable `r dependent_variable`:

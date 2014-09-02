@@ -360,9 +360,9 @@ shinyServer(function(input, output,session) {
     
     content = function(file) {
       
-      filename.Rmd <- paste('SALES_Report', 'Rmd', sep=".")
-      filename.md <- paste('SALES_Report', 'md', sep=".")
-      filename.html <- paste('SALES_Report', 'html', sep=".")
+      filename.Rmd <- paste('../doc/SALES_Report', 'Rmd', sep=".")
+      filename.md <- paste('../doc/SALES_Report', 'md', sep=".")
+      filename.html <- paste('../SALES_Report', 'html', sep=".")
       
       #############################################################
       # All the (SAME) parameters that the report takes from RunStudy.R
