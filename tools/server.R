@@ -248,13 +248,28 @@ shinyServer(function(input, output,session) {
       regression_model = paste(paste(colnames(ProjectData)[1], "~",sep=""), colnames(ProjectData)[2],sep="")
       the_fit<-lm(regression_model,data=ProjectData)      
     }
-    the_fit
+    print_the_fit<-as.list(summary(the_fit))
+    the_res= c(print_the_fit$r.squared, print_the_fit$adj.r.squared, 
+               print_the_fit$fstatistic["value"], pf(print_the_fit$fstatistic[1], print_the_fit$fstatistic[2], print_the_fit$fstatistic[3],lower.tail = FALSE),
+               sqrt(deviance(the_fit)/df.residual(the_fit)),the_fit$df)
+    the_res = as.matrix(the_res,ncol=1)
+    rownames(the_res)<-c("R square","Adjusted R Square", "F-statistic", "p-value",
+                         "Residual standard error","degrees of freedom")
+    colnames(the_res)<-"Values"
+    the_res = as.data.frame(the_res)
+    list(the_fit=the_fit,
+         the_res = the_res)
   })
   
   # Now pass to ui.R what it needs to display this tab
   output$regression_output <- renderTable({
-    the_fit = the_regression_tab()
-    summary(the_fit)
+    the_fit_all = the_regression_tab()
+    summary(the_fit_all$the_fit)
+  })
+  
+  output$Resparameters <- renderTable({
+    the_fit_all = the_regression_tab()
+    the_fit_all$the_res
   })
   
   
@@ -276,7 +291,7 @@ shinyServer(function(input, output,session) {
     independent_variables <- all_inputs$independent_variables
     
     the_fit = the_regression_tab()    
-    residuals(the_fit)       
+    residuals(the_fit$the_fit)       
   })
   
   # Now pass to ui.R what it needs to display this tab

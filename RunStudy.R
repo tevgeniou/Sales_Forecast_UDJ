@@ -23,21 +23,22 @@ cat("\n *********\n WORKING DIRECTORY IS ", local_directory, "\n PLEASE CHANGE I
 # Please ENTER the name of the file with the data used. The file should contain a matrix with one row per observation (e.g. person) and one column per attribute. THE NAME OF THIS MATRIX NEEDS TO BE ProjectData (otherwise you will need to replace the name of the ProjectData variable below with whatever your variable name is, which you can see in your Workspace window after you load your file)
 
 datafile_name <- "SALES.csv" # this is the default name of the data for a project
-#datafile_name <- "harmonData.csv" # this is the default name of the data for a project
+datafile_name <- "harmonData.csv" # this is the default name of the data for a project
 
 
 # this loads the selected data
 ProjectData <- read.csv(paste("data", datafile_name, sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
 
+# let's see the names of the variables so that we use those names
 # Please ENTER the dependent variable
 dependent_variable <- "SALES" 
-#dependent_variable <- "Sales" 
+dependent_variable <- "Sales" 
 
 
 # Please ENTER the independent variable
 independent_variables <- c("PDI", "DEALS", "PRICE", "R.D", "INVEST", 
                            "ADVERTIS", "EXPENSE", "TOTINDAD")
-#independent_variables <- c("TIME","CP",	"CP.t.1.","CP.t.2.",	"DA",	"DA.t.1.",	"DA.t.2.",	"SeasIndx")
+independent_variables <- c("TIME","CP",	"CP.t.1.","CP.t.2.",	"DA",	"DA.t.1.",	"DA.t.2.",	"SeasIndx")
 
 
 ###########################
@@ -51,32 +52,19 @@ independent_variables <- c("PDI", "DEALS", "PRICE", "R.D", "INVEST",
 # SELECT 0 if you are running the application on a server 
 # (DEFAULT is 0). 
 # NOTE: You need to make sure the shiny library is installing (see below)
-start_local_webapp <- 0
+start_local_webapp <- 1
 
 ################################################
 # Now run everything
 
 source(paste(local_directory,"R/library.R", sep="/"))
 source(paste(local_directory,"R/heatmapOutput.R", sep = "/"))
+
+cat("\n\n\nOur variables are:",colnames(ProjectData),"\n\n") 
+
 source(paste(local_directory,"R/runcode.R", sep = "/"))
 
 if (start_local_webapp){
-  
-  # MAKE SURE THIS INSTALLS FINE if a local web app is to be use - the local computer needs
-  # to have the shiny library to run the shiny apps
-  if (require(shiny) == FALSE) 
-    install_libraries("shiny")
-  if (require(shinyRGL) == FALSE) 
-    install_github("shinyRGL", "trestletech")
-  if (require(shiny-incubator) == FALSE) 
-    install_github("shiny-incubator", "rstudio")
-  
-  # first load the data files in the data directory so that the App see them
-  Sales <- read.csv(paste("data", "SALES.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
-  Life <- read.csv(paste("data", "LIFE.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
-  harmonData <- read.csv(paste("data", "harmonData.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
-  ProjectData <- read.csv(paste("data", "SALES.csv", sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
-
   # now run the app
   runApp(paste(local_directory,"tools", sep="/"))  
 }

@@ -14,6 +14,13 @@ get_libraries(libraries_used)
 
 require(devtools)
 
+if (require(shiny) == FALSE) 
+  install_libraries("shiny")
+if (require(shinyRGL) == FALSE) 
+  install_github("shinyRGL", "trestletech")
+if (require(shiny-incubator) == FALSE) 
+  install_github("shiny-incubator", "rstudio")
+
 if (require(rNVD3) == FALSE) 
   install_github('rNVD3', 'ramnathv')
 if (require(slidifyLibraries) == FALSE) 

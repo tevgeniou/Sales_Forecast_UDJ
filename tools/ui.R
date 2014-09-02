@@ -12,15 +12,11 @@ shinyUI(pageWithSidebar(
   
   sidebarPanel(
     
-    HTML("Please reload the web page any time the app crashes. <strong> When it crashes the whole screen turns into grey.</strong> If it only stops reacting it may be because of 
-heavy computation or traffic on the server, in which case you should simply wait. Plots may at times fade: you do <strong>not</strong> 
-         need to reload the app when this happens, simply continue using the app.This is a test version. </h4>"),
-    
     ###########################################################    
     # STEP 2.1: read the data
     
     HTML("<hr>"),
-    HTML("<center>Choose the data to use (please go to the <strong>Parameters tab </strong> every time you load new data):"),    
+    HTML("<center>Choose the data to use:"),    
     selectInput('datafile_name_coded', '', c("SALES","LIFE","harmonData"),multiple = FALSE),
     HTML("<hr>"),
     
@@ -42,11 +38,12 @@ heavy computation or traffic on the server, in which case you should simply wait
     ###########################################################
     # STEP 2.3: buttons to download the new report and new slides 
     
-    HTML("<h4>Download the new HTML report </h4>"),
-    downloadButton('report', label = "Download"),
-    HTML("<hr>"),
-    HTML("<h4>Download the new HTML5 slides </h4>"),
-    downloadButton('slide', label = "Download"),
+    #HTML("<h4>Download the new HTML report </h4>"),
+    #downloadButton('report', label = "Download"),
+    #HTML("<hr>"),
+    #HTML("<h4>Download the new HTML5 slides </h4>"),
+    #downloadButton('slide', label = "Download"),
+    
     HTML("<hr>")    
   ),
   
@@ -117,7 +114,12 @@ heavy computation or traffic on the server, in which case you should simply wait
       tabPanel("Regression Output", 
                actionButton("action_regression", "Show/Update Results"),
                HTML("<br>"),
-               tableOutput("regression_output")),
+               HTML("<br>"),
+               HTML("<br>"),
+               tableOutput("regression_output"),
+               tags$hr(),
+               tableOutput('Resparameters')
+               ),
       
       tabPanel("Residuals Plot", 
                actionButton("action_residuals", "Show/Update Results"),
