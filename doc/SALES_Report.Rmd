@@ -83,7 +83,7 @@ Let's now see the correlation between all our variables:
 
 ```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
 data_reorder=cbind(ProjectData[,independent_variables,drop=F],ProjectData[,dependent_variable,drop=F])
-thecor=cor(data_reorder)
+thecor=round(cor(data_reorder),2)
 colnames(thecor)<-colnames(thecor)
 rownames(thecor)<-rownames(thecor)
 
