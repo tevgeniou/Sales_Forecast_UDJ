@@ -23,23 +23,21 @@ cat("\n *********\n WORKING DIRECTORY IS ", local_directory, "\n PLEASE CHANGE I
 # Please ENTER the name of the file with the data used. The file should contain a matrix with one row per observation (e.g. person) and one column per attribute. THE NAME OF THIS MATRIX NEEDS TO BE ProjectData (otherwise you will need to replace the name of the ProjectData variable below with whatever your variable name is, which you can see in your Workspace window after you load your file)
 
 datafile_name <- "SALES.csv" # this is the default name of the data for a project
-datafile_name <- "harmonData.csv" # this is the default name of the data for a project
+#datafile_name <- "harmonData.csv" # this is the default name of the data for a project
 
-
-# this loads the selected data
-ProjectData <- read.csv(paste("data", datafile_name, sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
-
-# let's see the names of the variables so that we use those names
 # Please ENTER the dependent variable
 dependent_variable <- "SALES" 
-dependent_variable <- "Sales" 
-
+#dependent_variable <- "Sales" 
 
 # Please ENTER the independent variable
 independent_variables <- c("PDI", "DEALS", "PRICE", "R.D", "INVEST", 
                            "ADVERTIS", "EXPENSE", "TOTINDAD")
-independent_variables <- c("TIME","CP",	"CP.t.1.","CP.t.2.",	"DA",	"DA.t.1.",	"DA.t.2.",	"SeasIndx")
+#independent_variables <- c("TIME","CP",	"CP.t.1.","CP.t.2.",	"DA",	"DA.t.1.",	"DA.t.2.",	"SeasIndx")
+###########################
 
+
+# this loads the selected data
+ProjectData <- read.csv(paste("data", datafile_name, sep = "/"), sep=";", dec=",") # this contains only the matrix ProjectData
 
 ###########################
 # Would you like to also start a web application on YOUR LOCAL COMPUTER once the report and slides are generated?
@@ -60,6 +58,7 @@ start_local_webapp <- 1
 source(paste(local_directory,"R/library.R", sep="/"))
 source(paste(local_directory,"R/heatmapOutput.R", sep = "/"))
 
+# let's see the names of the variables so that we use those names
 cat("\n\n\nOur variables are:",colnames(ProjectData),"\n\n") 
 
 source(paste(local_directory,"R/runcode.R", sep = "/"))
