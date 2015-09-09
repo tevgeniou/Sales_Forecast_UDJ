@@ -14,8 +14,9 @@ get_libraries(libraries_used)
 
 require(devtools)
 
+### TO EDIT DEPENDING ON VERSION
 if (require(shiny) == FALSE) 
-  install_libraries("shiny")
+  install.packages("shiny")
 if (require(shinyRGL) == FALSE) 
   install_github("shinyRGL", "trestletech")
 if (require(shiny-incubator) == FALSE) 
